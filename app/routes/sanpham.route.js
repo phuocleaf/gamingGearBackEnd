@@ -20,7 +20,7 @@ const upload = multer({ storage })
 
 
 router.route('/') // localhost:3000/api/sanpham
-  .post(upload.array('image', 5), sanpham.create)
+  .post(upload.array('images', 5), sanpham.create)
   .get(sanpham.getProducts);
 
 // router.route('/:id') // localhost:3000/api/sanpham/:id
@@ -32,5 +32,6 @@ router.route('/anhsanpham/:id') // localhost:3000/api/sanpham/anhsanpham/:id
 
 router.route('/:id') // localhost:3000/api/sanpham/:id
   .delete(sanpham.deleteProduct)
+  .get(sanpham.getProductWithId)
 
 module.exports = router;

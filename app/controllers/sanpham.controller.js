@@ -63,3 +63,17 @@ exports.deleteProduct = async (req, res, next) => {
         );
     }
 };
+
+exports.getProductWithId = async (req, res, next) => {
+    try {
+        const sanphamService = new SanPhamService(MongoDB.client);
+        const document = await sanphamService.getOne(req.params.id);
+        if (!document)
+            return next(new ApiError(404, "Product not found"));
+        return res.send(document);
+    } catch (error) {
+        return next(
+            new ApiError(500, "An error occurred while fetching the product")
+        );
+    }
+};
