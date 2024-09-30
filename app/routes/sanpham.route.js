@@ -33,5 +33,6 @@ router.route('/anhsanpham/:id') // localhost:3000/api/sanpham/anhsanpham/:id
 router.route('/:id') // localhost:3000/api/sanpham/:id
   .delete(sanpham.deleteProduct)
   .get(sanpham.getProductWithId)
+  .put(upload.array('images', 5), sanpham.updateProduct);
 
 module.exports = router;

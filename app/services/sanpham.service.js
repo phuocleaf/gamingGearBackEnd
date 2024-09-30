@@ -44,6 +44,15 @@ class SanPhamService {
     async getOne(id) {
         return await this.SanPham.findOne({ _id: ObjectId.isValid(id) ? new ObjectId(id) : null });
     }
+
+    async update(id, payload) {
+        const sanpham = this.extractSanPhamData(payload);
+        sanpham.updated_at = new Date().toLocaleString();
+        return await this.SanPham.updateOne(
+            { _id: ObjectId.isValid(id) ? new ObjectId(id) : null },
+            { $set: sanpham }
+        );
+    }
 }
 
 module.exports = SanPhamService;

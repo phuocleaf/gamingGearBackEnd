@@ -8,7 +8,7 @@ class AnhSanPhamService {
     //Định nghĩa các phương thức truy xuất CSDL sử dụng mongodb API
     extractAnhSanPhamData(idSanPham, path) {
         const anhsanpham = {
-            idSanPham: idSanPham,
+            idSanPham: new ObjectId(idSanPham),
             path: path,
         };
         // Remove undefined fields
@@ -32,6 +32,11 @@ class AnhSanPhamService {
     async deleteProductPhoto(id) {
         // Delete all images of the product
         await this.AnhSanPham.deleteMany({ idSanPham: new ObjectId(id) });
+    }
+
+    async deletePhoto(id) {
+        // Delete one image
+        await this.AnhSanPham.deleteOne({ _id: new ObjectId(id) });
     }
 }
 

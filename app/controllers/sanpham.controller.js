@@ -77,3 +77,35 @@ exports.getProductWithId = async (req, res, next) => {
         );
     }
 };
+
+exports.updateProduct = async (req, res, next) => {
+    if (!req.body)
+        return next(new ApiError(400, "Body can not be empty"));
+
+    try {
+        const sanphamService = new SanPhamService(MongoDB.client);
+        const document = await sanphamService.update(req.params.id, req.body);
+        const anhsanphamService = new AnhSanPhamService(MongoDB.client);
+        if(req.files && Array.isArray(req.files)){
+            const imagePaths = req.files.map(file => path.basename(file.path));
+            for (let i = 0; i < imagePaths.length; i++) {
+                await anhsanphamService.create(req.params.id, imagePaths[i]);
+            }
+        }
+        if (req.body.deletedImages) {
+            const deletedImages = JSON.parse(req.body.deletedImages);
+            for (let i = 0; i < deletedImages.length; i++) {
+                await anhsanphamService.deletePhoto(deletedImages[i]);
+            }
+        }
+
+        if (!document)
+            return next(new ApiError(404, "Product not found"));
+
+        return res.send(document);
+    } catch (error) {
+        return next(
+            new ApiError(500, "An error occurred while updating the product")
+        );
+    }
+};
