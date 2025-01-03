@@ -23,6 +23,9 @@ router.route('/') // localhost:3000/api/sanpham
   .post(upload.array('images', 5), sanpham.create)
   .get(sanpham.getProducts);
 
+router.route('/laysanpham/laysanphamvahinhanh') // localhost:3000/api/sanpham/laysanpham/laysanphamvahinhanh
+  .get(sanpham.getProductsAndImages);
+  
 // router.route('/:id') // localhost:3000/api/sanpham/:id
 //     .get(product.getProductWithId)
 //     .put(product.updateProduct)
@@ -34,5 +37,6 @@ router.route('/:id') // localhost:3000/api/sanpham/:id
   .delete(sanpham.deleteProduct)
   .get(sanpham.getProductWithId)
   .put(upload.array('images', 5), sanpham.updateProduct);
+
 
 module.exports = router;

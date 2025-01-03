@@ -69,7 +69,7 @@ exports.getProductWithId = async (req, res, next) => {
         const sanphamService = new SanPhamService(MongoDB.client);
         const document = await sanphamService.getOne(req.params.id);
         if (!document)
-            return next(new ApiError(404, "Product not found"));
+            return next(new ApiError(404, "getProductWithId Product not found"));
         return res.send(document);
     } catch (error) {
         return next(
@@ -109,3 +109,15 @@ exports.updateProduct = async (req, res, next) => {
         );
     }
 };
+
+exports.getProductsAndImages = async (req, res, next) => {
+    try {
+        const sanphamService = new SanPhamService(MongoDB.client);
+        const documents = await sanphamService.getProductsWithImage();
+        return res.send(documents);
+    } catch (error) {
+        return next(
+            new ApiError(500, "An error occurred while fetching the products")
+        );
+    }
+}
